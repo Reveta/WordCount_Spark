@@ -28,7 +28,7 @@ object TestText {
 
     var newBuilder: StringBuilder = new StringBuilder
 
-    for (a <- 0 to random.nextInt()) {
+    for (a <- 0 to random.nextInt(6)) {
       newBuilder.append(getRandomLetter())
     }
 
