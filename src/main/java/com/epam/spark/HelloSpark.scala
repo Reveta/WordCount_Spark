@@ -1,7 +1,5 @@
 package com.epam.spark
 
-import java.util.Scanner
-
 import org.apache.spark.{SparkConf, SparkContext}
 
 object HelloSpark {
@@ -12,35 +10,33 @@ object HelloSpark {
       .setMaster("local[*]")
 
     val sc = new SparkContext(conf)
-
     println("Hello, SparkWorld!")
-//    val rdd1 = sc.parallelize(1 to 10)
-//    val rdd2 = sc.parallelize(20 to 30)
-//    val rdd3 = rdd1.union(rdd2)
-//    val rdd4 = rdd2.union(rdd2).union(rdd1)
-    val rdd5 = sc.parallelize(
-      TestText.getRandomText(1000)
-        .replace(",", "")
-        .replace(".", "")
-        .replace("?", "")
-        .toLowerCase()
-        .split(" ")
+
+
+    println("randomTextCreating -> Start")
+    val randomText = TestText.getRandomText(10000000)
+
+    println("sc.parallelize -> Start")
+    val rdd = sc.parallelize(randomText
+      /*        .replace(",", "")
+              .replace(".", "")
+              .replace("?", "")
+              .toLowerCase()*/
+      .split(" ")
     )
 
-//    val ints = rdd3.collect()
-    //    print(ints.toString)
-    //    println(util.Arrays.toString(ints))
-    //    println(rdd3.count())
-    //    println(rdd4.countByValue())
-    rdd5.countByValue()
+    println("rdd.countByValue -> Start")
+    rdd.countByValue()
       .toStream
-      .sortBy(_2 => {_2._2})
-      .foreach {
-        println
-      }
+      .sortBy(_2 => {
+        _2._2
+      })
+//      .foreach {
+//        println()
+//      }
 
+    println("All -> Finish")
 
-//    new Scanner(System.in).next()
     sc.stop()
   }
 
